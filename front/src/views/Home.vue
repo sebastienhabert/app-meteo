@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import weatherApi from '../api/weatherApi'
 import SearchBar from '../components/SearchBar.vue'
+import WeatherCard from '../components/WeatherCard.vue'
 
 const currentWeatherData = ref<any>(null)
 const loading = ref(false)
@@ -32,25 +33,11 @@ const handleSearch = async (query: string) => {
     <div v-if="loading" class="status">Chargement...</div>
     <div v-if="error" class="status error">{{ error }}</div>
 
-    <div v-if="currentWeatherData">
-      <ul>
-        <li v-if="currentWeatherData?.city">
-          Ville : {{ currentWeatherData?.city }} ({{ currentWeatherData?.country }})
-        </li>
-        <li v-if="currentWeatherData?.latitude">
-          Latitude : {{ currentWeatherData?.latitude }}
-        </li>
-        <li v-if="currentWeatherData?.longitude">
-          Longitude : {{ currentWeatherData?.longitude }}
-        </li>
-        <li v-if="currentWeatherData?.temperature">
-          Température : {{ currentWeatherData?.temperature }}°C
-        </li>
-        <li v-if="currentWeatherData?.windSpeed">
-          Vent : {{ currentWeatherData?.windSpeed }}
-        </li>
-      </ul>
-    </div>
+    <WeatherCard 
+      v-if="currentWeatherData" 
+      :weather-data="currentWeatherData"
+    />
+
   </div>
 </template>
 
