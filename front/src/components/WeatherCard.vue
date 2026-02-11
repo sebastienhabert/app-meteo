@@ -2,6 +2,8 @@
 defineProps<{
   weatherData: any
 }>()
+
+const emit = defineEmits(['save'])
 </script>
 
 <template>
@@ -10,6 +12,9 @@ defineProps<{
       <h2 v-if="weatherData?.city">{{ weatherData?.city }} ({{ weatherData?.latitude }}, {{ weatherData?.longitude }})</h2>
       <h2 v-else-if="weatherData?.latitude">GPS : {{ weatherData?.latitude }}, {{ weatherData?.longitude }}</h2>
       <h2 v-else>Aucun résultat trouvé</h2>
+      <button @click="emit('save')">
+        Ajouter aux favoris
+      </button>
     </div>
     
     <div class="content">
