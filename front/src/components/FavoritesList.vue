@@ -10,19 +10,61 @@ const emit = defineEmits(['select', 'delete'])
 
 <template>
   <div class="favorites" v-if="favorites.length > 0">
-    <h3>Favoris / Historique</h3>
-    <ul class="favorites-list">
+    <h3>Mes favoris</h3>
+    <nav class="favorites-list">
       <li v-for="favorite in favorites" :key="favorite.id" class="favorite-item">
-        <strong>{{ favorite.name }}</strong>
         <button @click="emit('select', favorite)" class="select-btn">
-          Voir
+          {{ favorite.name }}
         </button>
         <button @click="emit('delete', favorite.id)" class="delete-btn">
-          Supprimer
+          X
         </button>
       </li>
-    </ul>
+    </nav>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+h3 {
+  margin: 1rem 0;
+}
+
+.favorites {
+  margin-top: 1rem;
+}
+
+.favorites-list {
+  list-style: none;
+  padding: 0;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #333;
+  gap: .5rem;
+}
+
+.favorite-item:last-child {
+  border-bottom: 1px solid #333;
+}
+
+.select-btn {
+  padding: .5rem;
+  flex: 1;
+  font-size: 1rem;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  background: none;
+  font-weight: bold;
+}
+
+.delete-btn {
+  border: none;
+  padding: .5rem;
+  cursor: pointer;
+  background: none;
+}
+</style>

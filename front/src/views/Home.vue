@@ -75,27 +75,42 @@ onMounted(fetchFavorites)
 </script>
 
 <template>
+  <h1>Prévisions Météo</h1>
   <div class="home">
-    <h1>Prévisions Météo</h1>
+    <aside>
+      <SearchBar @search="handleSearch" />
+      
+      <FavoritesList 
+        :favorites="favorites" 
+        @select="handleSelectFavorite"
+        @delete="handleDeleteFavorite"
+      />
+    </aside>
 
-    <SearchBar @search="handleSearch" />
+    <main>
+      <div v-if="loading" class="status">Chargement...</div>
+      <div v-if="error" class="status error">{{ error }}</div>
 
-    <div v-if="loading" class="status">Chargement...</div>
-    <div v-if="error" class="status error">{{ error }}</div>
-
-    <WeatherCard 
-      v-if="currentWeatherData && !loading" 
+      <WeatherCard 
+        v-if="currentWeatherData && !loading" 
       :weather-data="currentWeatherData"
       :is-favorite="favorites.some(favorite => favorite.name === currentWeatherData.city)"
       @save="handleSaveFavorite"
     />
-
-    <FavoritesList 
-      :favorites="favorites" 
-      @select="handleSelectFavorite"
-      @delete="handleDeleteFavorite"
-    />
+    </main>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .home {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
