@@ -3,6 +3,7 @@
 namespace App\Service\Client;
 
 use App\DTO\LocationDTO;
+use App\Exception\CityNotFoundException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class OpenMeteoGeocodingClient implements GeocodingClientInterface
@@ -29,7 +30,7 @@ final class OpenMeteoGeocodingClient implements GeocodingClientInterface
         $data = $response->toArray();
 
         if (empty($data['results'])) {
-            throw new \Exception("City $city not found");
+            throw new CityNotFoundException($city);
         }
 
         $result = $data['results'][0];
