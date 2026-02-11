@@ -17,6 +17,13 @@ final class WeatherService
     ) {
     }
 
+    public function getWeatherByCoordinates(float $lat, float $lon): WeatherResponseDTO
+    {
+        $data = $this->weatherClient->fetchWeather($lat, $lon);
+
+        return $this->mapToDTO($data);
+    }
+
     public function getWeatherByCity(string $city): WeatherResponseDTO
     {
         $location = $this->geocodingClient->search($city);
@@ -37,8 +44,8 @@ final class WeatherService
             time: new \DateTimeImmutable($data['current']['time']),
             city: $location?->name,
             country: $location?->country,
-            latitude: $location?->latitude,
-            longitude: $location?->longitude,
+            latitude: $location?->latitude ?? $data['latitude'],
+            longitude: $location?->longitude ?? $data['longitude'],
         );
     }
 }
