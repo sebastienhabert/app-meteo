@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type { WeatherData } from '@/types/weatherData';
+
 defineProps<{
-  weatherData: any
+  weatherData: WeatherData
+  isFavorite: boolean
 }>()
 
 const emit = defineEmits(['save'])
@@ -12,7 +15,7 @@ const emit = defineEmits(['save'])
       <h2 v-if="weatherData?.city">{{ weatherData?.city }} ({{ weatherData?.latitude }}, {{ weatherData?.longitude }})</h2>
       <h2 v-else-if="weatherData?.latitude">GPS : {{ weatherData?.latitude }}, {{ weatherData?.longitude }}</h2>
       <h2 v-else>Aucun résultat trouvé</h2>
-      <button @click="emit('save')">
+      <button @click="emit('save')" v-if="!isFavorite">
         Ajouter aux favoris
       </button>
     </div>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Favorite } from '@/types/favorite'
+
 defineProps<{
-  favorites: any[]
+  favorites: Favorite[]
 }>()
 
 const emit = defineEmits(['select', 'delete'])

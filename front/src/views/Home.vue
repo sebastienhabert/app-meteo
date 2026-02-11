@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import weatherApi from '../api/weatherApi'
+import type { Favorite } from '@/types/favorite'
 import SearchBar from '../components/SearchBar.vue'
 import WeatherCard from '../components/WeatherCard.vue'
 import FavoritesList from '../components/FavoritesList.vue'
 
 const currentWeatherData = ref<any>(null)
-const favorites = ref<any[]>([])
+const favorites = ref<Favorite[]>([])
 const loading = ref(false)
 const error = ref('')
 
 const fetchFavorites = async () => {
   try {
     const response = await weatherApi.getFavorites()
-    favorites.value = response.data
+    favorites.value = response
   } catch (err) {
     console.error('Failed to fetch favorites', err)
   }
@@ -34,11 +35,11 @@ const handleSearch = async (query: string) => {
   }
 }
 
-const handleSelectFavorite = async (fav: any) => {
+const handleSelectFavorite = async (favorite: Favorite) => {
   loading.value = true
   error.value = ''
   try {
-    const response = await weatherApi.getWeather(fav.name)
+    const response = await weatherApi.getWeather(favorite.name)
     currentWeatherData.value = response.data
   } catch (err: any) {
     error.value = 'Erreur lors du chargement du favori'
@@ -85,6 +86,7 @@ onMounted(fetchFavorites)
     <WeatherCard 
       v-if="currentWeatherData && !loading" 
       :weather-data="currentWeatherData"
+      :is-favorite="favorites.some(favorite => favorite.name === currentWeatherData.city)"
       @save="handleSaveFavorite"
     />
 
