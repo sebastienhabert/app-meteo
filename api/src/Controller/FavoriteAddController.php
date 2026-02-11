@@ -24,12 +24,12 @@ final class FavoriteAddController extends AbstractController
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['name'], $data['latitude'], $data['longitude'])) {
+        if (!isset($data['latitude'], $data['longitude'])) {
             return $this->json(['error' => 'Missing data'], 400);
         }
 
         $favorite = new Favorite();
-        $favorite->setName($data['name']);
+        $favorite->setName($data['name'] ?? $data['latitude'] . ', ' . $data['longitude']);
         $favorite->setLatitude((float) $data['latitude']);
         $favorite->setLongitude((float) $data['longitude']);
 

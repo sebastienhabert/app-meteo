@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import weatherApi from '../api/weatherApi'
 import type { Favorite } from '@/types/favorite'
 import SearchBar from '../components/SearchBar.vue'
@@ -71,6 +71,16 @@ const handleDeleteFavorite = async (id: number) => {
   }
 }
 
+const isFavorite = computed(() => {
+  const current = currentWeatherData.value
+  if (!current) return false
+
+  return favorites.value.some(fav =>
+    fav.latitude === current.latitude &&
+    fav.longitude === current.longitude
+  )
+})
+
 onMounted(fetchFavorites)
 </script>
 
@@ -93,9 +103,9 @@ onMounted(fetchFavorites)
 
       <WeatherCard 
         v-if="currentWeatherData && !loading" 
-      :weather-data="currentWeatherData"
-      :is-favorite="favorites.some(favorite => favorite.name === currentWeatherData.city)"
-      @save="handleSaveFavorite"
+        :weather-data="currentWeatherData"
+        :is-favorite="isFavorite"
+        @save="handleSaveFavorite"
     />
     </main>
   </div>
