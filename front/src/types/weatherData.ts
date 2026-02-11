@@ -4,5 +4,7 @@ export interface WeatherData {
     latitude: number;
     longitude: number;
     temperature: number;
+    apparentTemperature: number;
     windSpeed: number;
+    relativeHumidity: number;
 }
