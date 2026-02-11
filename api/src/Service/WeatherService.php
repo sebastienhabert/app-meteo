@@ -36,7 +36,9 @@ final class WeatherService
             windSpeed: $data['current']['wind_speed_10m'],
             time: new \DateTimeImmutable($data['current']['time']),
             city: $location?->name,
-            country: $location?->country
+            country: $location?->country,
+            latitude: $location?->latitude,
+            longitude: $location?->longitude,
         );
     }
 }
