@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\QueryParserService;
 use App\Service\WeatherService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,12 +17,12 @@ final class WeatherController extends AbstractController
 {
     public function __construct(
         private WeatherService $weatherService,
+        private QueryParserService $queryParserService,
     ) {
     }
 
     public function __invoke(
         Request $request,
-        WeatherService $weatherService,
     ): JsonResponse {
 
         $query = $request->query->get('query');
@@ -33,26 +34,14 @@ final class WeatherController extends AbstractController
             );
         }
 
-        if ($this->isCoordinates($query)) {
-            [$lat, $lon] = $this->extractCoordinates($query);
+        if ($this->queryParserService->isCoordinates($query)) {
+            [$lat, $lon] = $this->queryParserService->extractCoordinates($query);
 
-            $weather = $weatherService->getWeatherByCoordinates($lat, $lon);
+            $weather = $this->weatherService->getWeatherByCoordinates($lat, $lon);
         } else {
-            $weather = $weatherService->getWeatherByCity($query);
+            $weather = $this->weatherService->getWeatherByCity($query);
         }
 
         return $this->json($weather);
-    }
-
-    private function isCoordinates(string $input): bool
-    {
-        return preg_match('/^\d+(\.\d+)?,\s*\d+(\.\d+)?$/', trim($input)) === 1;
-    }
-
-    private function extractCoordinates(string $input): array
-    {
-        [$lat, $lon] = explode(',', trim($input));
-
-        return [(float) $lat, (float) $lon];
     }
 }
