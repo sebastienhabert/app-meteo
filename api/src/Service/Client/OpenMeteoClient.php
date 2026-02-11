@@ -20,7 +20,7 @@ class OpenMeteoClient implements WeatherClientInterface
                 'query' => [
                     'latitude' => $lat,
                     'longitude' => $lon,
-                    'current' => 'temperature_2m,wind_speed_10m',
+                    'current' => 'temperature_2m,wind_speed_10m,relative_humidity_2m,apparent_temperature',
                 ],
             ]
         );

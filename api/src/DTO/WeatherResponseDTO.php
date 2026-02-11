@@ -12,6 +12,8 @@ final class WeatherResponseDTO
         public readonly ?string $country,
         public readonly float $latitude,
         public readonly float $longitude,
+        public readonly float $relativeHumidity,
+        public readonly float $apparentTemperature,
     ) {
     }
 }

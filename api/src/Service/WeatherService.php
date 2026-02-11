@@ -46,6 +46,8 @@ final class WeatherService
             country: $location?->country,
             latitude: $location?->latitude ?? $data['latitude'],
             longitude: $location?->longitude ?? $data['longitude'],
+            relativeHumidity: $data['current']['relative_humidity_2m'],
+            apparentTemperature: $data['current']['apparent_temperature'],
         );
     }
 }
