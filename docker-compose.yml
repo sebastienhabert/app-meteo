@@ -8,6 +8,7 @@ services:
     environment:
       APP_ENV: dev
       DATABASE_URL: "sqlite:///%kernel.project_dir%/var/data.db"
+    command: sh -c "php bin/console doctrine:migrations:migrate --no-interaction && php-fpm"
     networks:
       - app-weather
 
