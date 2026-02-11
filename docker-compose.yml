@@ -1,0 +1,49 @@
+services:
+  api:
+    build:
+      context: ./docker/php
+    container_name: weather_api
+    volumes:
+      - ./api:/var/www/html:cached  # 'cached' améliore la perf
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: "sqlite:///%kernel.project_dir%/var/data.db"
+    networks:
+      - app-weather
+
+  front:
+    image: node:20
+    container_name: weather_front
+    user: "1000:1000"
+    working_dir: /app
+    volumes:
+      - ./front:/app
+    environment:
+      # Ignore Cypress prepare pour dev
+      CYPRESS_INSTALL_BINARY: 0
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    networks:
+      - app-weather
+
+  caddy:
+    image: caddy:latest
+    container_name: weather_caddy
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./api:/var/www/html
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+      - front
+    networks:
+      - app-weather
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  app-weather:

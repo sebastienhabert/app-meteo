@@ -1,0 +1,11 @@
+:80
+
+handle_path /api* {
+    root * /var/www/html/public
+    php_fastcgi api:9000
+    file_server
+}
+
+handle {
+    reverse_proxy front:5173
+}
