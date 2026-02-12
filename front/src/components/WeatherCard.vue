@@ -6,7 +6,7 @@ defineProps<{
   isFavorite: boolean
 }>()
 
-const emit = defineEmits(['save'])
+const emit = defineEmits(['toggle'])
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const emit = defineEmits(['save'])
       <h2 v-if="weatherData?.city">{{ weatherData?.city }} ({{ weatherData?.latitude }}, {{ weatherData?.longitude }})</h2>
       <h2 v-else>GPS : {{ weatherData?.latitude }}, {{ weatherData?.longitude }}</h2>
       <button
-        @click="isFavorite ? null : emit('save')"
+        @click="emit('toggle')"
         class="favorite-btn"
         :class="{ active: isFavorite }"
       >

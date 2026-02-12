@@ -10,13 +10,26 @@ export const useWeatherStore = defineStore('weather', () => {
     const loading = ref(false)
     const error = ref('')
 
-    const isFavorite = computed(() => {
-        if (!currentWeatherData.value) return false
-        return favorites.value.some(fav =>
+    const isFavorite = computed(() => Boolean(currentFavorite.value))
+
+    const currentFavorite = computed(() => {
+        if (!currentWeatherData.value) return null
+        return favorites.value.find(fav =>
             fav.latitude === currentWeatherData.value?.latitude &&
             fav.longitude === currentWeatherData.value?.longitude
-        )
+        ) || null
     })
+
+    async function toggleFavorite() {
+        if (!currentWeatherData.value) return
+
+        const favorite = currentFavorite.value
+        if (favorite) {
+            await deleteFavorite(favorite.id)
+        } else {
+            await saveFavorite()
+        }
+    }
 
     async function fetchFavorites() {
         try {
@@ -86,6 +99,7 @@ export const useWeatherStore = defineStore('weather', () => {
         searchWeather,
         selectFavorite,
         saveFavorite,
-        deleteFavorite
+        deleteFavorite,
+        toggleFavorite
     }
 })

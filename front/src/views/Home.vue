@@ -33,7 +33,7 @@ onMounted(() => {
         v-if="weatherStore.currentWeatherData && !weatherStore.loading" 
         :weather-data="weatherStore.currentWeatherData"
         :is-favorite="weatherStore.isFavorite"
-        @save="weatherStore.saveFavorite"
+        @toggle="weatherStore.toggleFavorite"
     />
     </main>
   </div>
