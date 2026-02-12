@@ -38,6 +38,7 @@ Cette commande va :
 - Installer les packages Node via `npm install` dans le conteneur front.
 - Lancer le serveur de développement Vite.
 - Lancer le serveur Caddy.
+- Lancer les migrations de la base de données.
 
 ### 4. Accès à l'application
 
