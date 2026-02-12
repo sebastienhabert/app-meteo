@@ -24,7 +24,9 @@ class WeatherServiceTest extends TestCase
                 'current' => [
                     'temperature_2m' => 20,
                     'wind_speed_10m' => 15,
-                    'time' => '2026-11-02T12:00'
+                    'relative_humidity_2m' => 50,
+                    'apparent_temperature' => 22,
+                    'time' => '2026-11-02T12:00',
                 ],
                 'latitude' => 47.31,
                 'longitude' => 5.01,
@@ -36,6 +38,8 @@ class WeatherServiceTest extends TestCase
 
         $this->assertSame(20.0, $result->temperature);
         $this->assertSame(15.0, $result->windSpeed);
+        $this->assertSame(50.0, $result->relativeHumidity);
+        $this->assertSame(22.0, $result->apparentTemperature);
     }
 
     public function testGetWeatherByCity(): void
@@ -53,6 +57,8 @@ class WeatherServiceTest extends TestCase
                 'current' => [
                     'temperature_2m' => 22,
                     'wind_speed_10m' => 10,
+                    'relative_humidity_2m' => 50,
+                    'apparent_temperature' => 22,
                     'time' => '2026-11-02T12:00'
                 ],
             ]);
@@ -64,5 +70,7 @@ class WeatherServiceTest extends TestCase
         $this->assertSame(22.0, $result->temperature);
         $this->assertSame('Dijon', $result->city);
         $this->assertSame('France', $result->country);
+        $this->assertSame(50.0, $result->relativeHumidity);
+        $this->assertSame(22.0, $result->apparentTemperature);
     }
 }
