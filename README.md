@@ -43,3 +43,18 @@ Cette commande va :
 
 - **Frontend** : [http://localhost](http://localhost) (via Caddy)
 - **API (Entrypoint)** : [http://localhost/api](http://localhost/api) (selon config Caddy)
+
+
+### 5. Tests
+
+Pour lancer les tests unitaires de l'API:
+```bash
+cd api
+php bin/phpunit
+```
+
+Pour lancer les tests unitaires du front:
+```bash
+cd front
+npm run test:unit
+```
